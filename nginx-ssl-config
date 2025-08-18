@@ -1,0 +1,57 @@
+server {
+    listen 80;
+    server_name eled.org www.eled.org 68.183.57.115;
+    
+    # Certbot challenge directory
+    location /.well-known/acme-challenge/ {
+        root /var/www/html;
+        allow all;
+    }
+    
+    # Main application
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+    
+    location /healthz {
+        proxy_pass http://127.0.0.1:3000/healthz;
+        access_log off;
+    }
+}
+
+server {
+    listen 443 ssl http2;
+    server_name eled.org www.eled.org 68.183.57.115;
+    
+    # SSL Configuration
+    ssl_certificate /etc/ssl/certs/shorturl.crt;
+    ssl_certificate_key /etc/ssl/private/shorturl.key;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers off;
+    ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384;
+    
+    # Security Headers
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+    add_header X-Frame-Options DENY always;
+    add_header X-Content-Type-Options nosniff always;
+    add_header X-XSS-Protection "1; mode=block" always;
+    
+    # Main application  
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header X-Forwarded-Host $host;
+    }
+    
+    location /healthz {
+        proxy_pass http://127.0.0.1:3000/healthz;
+        access_log off;
+    }
+}
