@@ -46,3 +46,9 @@ test*.txt
 
 # Uploads directory
 uploads/
+
+# Keep deployment files
+!ecosystem.config.js
+!nginx-config.conf
+!deploy.sh
+!deployment-guide.md
