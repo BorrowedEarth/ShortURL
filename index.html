@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Short URL Service - eled.org</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔗</text></svg>">
+</head>
+<body>
+    <div class="container">
+        <div class="logo">eled.org</div>
+        
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number" id="totalUrls">0</div>
+                <div class="stat-label">Total URLs</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="totalClicks">0</div>
+                <div class="stat-label">Total Clicks</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Prebuilt seed from urls.csv (generated at build/start) -->
+    <script src="urls.data.js" defer></script>
+    <!-- App script -->
+    <script src="script.js" defer></script>
+</body>
+</html>
